@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <mirrors>
+        <mirror>
+            <id>${env.NEXUS_MAVEN_PUBLIC_ID}</id>
+            <url>${env.NEXUS_MAVEN_PUBLIC}</url>
+            <mirrorOf>external:*</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.ARTIFACT_VERSION</name>
+                </property>
+            </activation>
+            <properties>
+                <artifactVersion>${env.ARTIFACT_VERSION}</artifactVersion>
+                <altReleaseDeploymentRepository>
+                    ${env.NEXUS_MAVEN_RELEASES_ID}::default::${env.NEXUS_MAVEN_RELEASES}
+                </altReleaseDeploymentRepository>
+                <altSnapshotDeploymentRepository>
+                    ${env.NEXUS_MAVEN_SNAPSHOTS_ID}::default::${env.NEXUS_MAVEN_SNAPSHOTS}
+                </altSnapshotDeploymentRepository>
+            </properties>
+            <repositories>
+                <repository>
+                    <id>${env.NEXUS_MAVEN_PUBLIC_ID}</id>
+                    <url>${env.NEXUS_MAVEN_PUBLIC}</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+</settings>
